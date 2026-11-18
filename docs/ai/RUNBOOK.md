@@ -15,7 +15,7 @@ npm run setup          # installs root, backend and frontend dependencies
 npm run dev            # API on http://localhost:5000 + React on http://localhost:5173
 ```
 
-Open http://localhost:5173 and sign in as `admin@smartworkflow.org` / `password123` (or use the demo buttons on the login page).
+Open http://localhost:5173 and sign in as `mdforidsheikh72+admin@gmail.com` / `password123` (or use the demo buttons on the login page).
 
 Run the halves separately if you prefer: `cd backend && npm run dev` and `cd frontend && npm run dev`.
 

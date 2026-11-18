@@ -39,7 +39,7 @@ Base URL: `http://localhost:5000/api` (Android Emulator: `http://10.0.2.2:5000/a
 - **Request Body:**
 ```json
 {
-  "email": "admin@smartworkflow.org",
+  "email": "mdforidsheikh72+admin@gmail.com",
   "password": "password123"
 }
 ```
@@ -51,7 +51,7 @@ Base URL: `http://localhost:5000/api` (Android Emulator: `http://10.0.2.2:5000/a
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "user": {
       "id": 1,
-      "email": "admin@smartworkflow.org",
+      "email": "mdforidsheikh72+admin@gmail.com",
       "role": "ADMIN",
       "approvalStatus": "APPROVED"
     }

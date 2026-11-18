@@ -2,8 +2,8 @@ import request from 'supertest';
 import app from '../src/app.js';
 
 export const ACCOUNTS = {
-  superAdmin: 'superadmin@smartworkflow.org',
-  admin: 'admin@smartworkflow.org',
+  superAdmin: 'sheikhforid138+superadmin@gmail.com',
+  admin: 'mdforidsheikh72+admin@gmail.com',
   john: 'john.doe@smartworkflow.org', // employee 3, backend developer
   jane: 'jane.smith@smartworkflow.org', // employee 4, designer
   alex: 'alex.jones@smartworkflow.org', // employee 5, flutter

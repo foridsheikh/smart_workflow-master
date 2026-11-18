@@ -89,8 +89,8 @@ Created automatically when the `users` table is empty, or on demand with `npm ru
 
 | Email | Role | Notes |
 | --- | --- | --- |
-| superadmin@smartworkflow.org | Super Admin | |
-| admin@smartworkflow.org | Admin | |
+| sheikhforid138+superadmin@gmail.com | Super Admin | |
+| mdforidsheikh72+admin@gmail.com | Admin | |
 | john.doe@ | Employee | Backend: JS/Node expert |
 | jane.smith@ | Employee | Designer |
 | alex.jones@ | Employee | Flutter/Dart |

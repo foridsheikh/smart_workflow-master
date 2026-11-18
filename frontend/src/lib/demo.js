@@ -5,13 +5,13 @@ export const DEMO_ACCOUNTS = [
   {
     role: 'Super Admin',
     name: 'Chief Super Admin',
-    email: 'superadmin@smartworkflow.org',
+    email: 'sheikhforid138+superadmin@gmail.com',
     description: 'Full control, including creating other admins and changing roles.',
   },
   {
     role: 'Admin',
     name: 'System Administrator',
-    email: 'admin@smartworkflow.org',
+    email: 'mdforidsheikh72+admin@gmail.com',
     description: 'Creates tasks, allocates work, approves registrations, views reports.',
   },
   {

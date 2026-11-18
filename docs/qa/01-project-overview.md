@@ -90,7 +90,7 @@ The original version had Leave/Payroll menu items with no backend; they were rem
 npm run setup   # install root, backend and frontend packages
 npm run dev     # API on :5000 and React on :5173
 ```
-Open http://localhost:5173 and sign in, for example as `admin@smartworkflow.org` / `password123`. On first start, the database file is created, migrated and filled with demo data automatically ([db.js](../../backend/src/config/db.js) lines 63–78).
+Open http://localhost:5173 and sign in, for example as `mdforidsheikh72+admin@gmail.com` / `password123`. On first start, the database file is created, migrated and filled with demo data automatically ([db.js](../../backend/src/config/db.js) lines 63–78).
 
 ### Q: What demo data does the system contain?
 **[Basic]** [seedData.js](../../backend/src/config/seedData.js) creates 9 users (1 super admin, 1 admin, 7 employees, one of them `PENDING`), 4 departments, 11 skills, 3 projects (one is members-only), and 15 tasks in every status. This includes an overdue task (task 8), a task nobody is qualified for (task 10, "Video Editing"), and 6 completed tasks with work logs, comments and history. Dates are relative to "now" (`'+5 days'`), so the demo always looks fresh.
