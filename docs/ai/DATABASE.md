@@ -89,7 +89,7 @@ Created automatically when the `users` table is empty, or on demand with `npm ru
 
 | Email | Role | Notes |
 | --- | --- | --- |
-| sheikhforid138+superadmin@gmail.com | Super Admin | |
+| mdforidsheikh72+superadmin@gmail.com | Super Admin | |
 | mdforidsheikh72+admin@gmail.com | Admin | |
 | john.doe@ | Employee | Backend: JS/Node expert |
 | jane.smith@ | Employee | Designer |

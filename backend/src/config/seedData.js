@@ -10,7 +10,7 @@ export const DEMO_PASSWORD = 'password123';
 
 // [id, email, role, approval_status]
 const users = [
-  [1, '', 'SUPER_ADMIN', 'APPROVED'],
+  [1, 'mdforidsheikh72+superadmin@gmail.com', 'SUPER_ADMIN', 'APPROVED'],
   [2, 'mdforidsheikh72+admin@gmail.com', 'ADMIN', 'APPROVED'],
   [3, 'john.doe@smartworkflow.org', 'EMPLOYEE', 'APPROVED'],
   [4, 'jane.smith@smartworkflow.org', 'EMPLOYEE', 'APPROVED'],

@@ -5,7 +5,7 @@ export const DEMO_ACCOUNTS = [
   {
     role: 'Super Admin',
     name: 'Chief Super Admin',
-    email: 'sheikhforid138+superadmin@gmail.com',
+    email: 'mdforidsheikh72+superadmin@gmail.com',
     description: 'Full control, including creating other admins and changing roles.',
   },
   {

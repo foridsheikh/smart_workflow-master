@@ -5,7 +5,7 @@ All demo accounts use the password **`password123`**.
 
 | Account | Role | Use it for |
 | --- | --- | --- |
-| `sheikhforid138+superadmin@gmail.com` | Super Admin | e-mail settings, outbox, role changes |
+| `mdforidsheikh72+superadmin@gmail.com` | Super Admin | e-mail settings, outbox, role changes |
 | `mdforidsheikh72+admin@gmail.com` | Admin | allocation, Kanban approval, approvals |
 | `john.doe@smartworkflow.org` | Employee (backend dev) | employee view, work log, upload, submit |
 | `jane.smith@smartworkflow.org` | Employee (designer) | forgot-password flow |
@@ -74,7 +74,7 @@ All demo accounts use the password **`password123`**.
 
 ## 6. E-mail settings with the LOG transport (2 min) — log in as super admin
 
-1. Log out (normal window) and log in as **`sheikhforid138+superadmin@gmail.com`**. A new menu section **System → E-mail settings** appears.
+1. Log out (normal window) and log in as **`mdforidsheikh72+superadmin@gmail.com`**. A new menu section **System → E-mail settings** appears.
 2. Turn **E-mail on**, keep transport **"Log only"**, **Save settings**.
    **Say:** "Settings are stored in the database so the super admin can change them at runtime. A real SMTP password would be encrypted with AES-256-GCM and is never returned by the API. The LOG transport sends nothing outside the machine — safe for a demo."
 3. **Send test e-mail** to any address → toast "Test message logged … (LOG transport, nothing was sent)".

@@ -206,7 +206,7 @@ Every seeded account uses the password **`password123`**. The login page also ha
 
 | Role | Name | Email | Notes |
 | --- | --- | --- | --- |
-| Super Admin | Chief Super Admin | `sheikhforid138+superadmin@gmail.com` | Full control, role changes, e-mail settings |
+| Super Admin | Chief Super Admin | `mdforidsheikh72+superadmin@gmail.com` | Full control, role changes, e-mail settings |
 | Admin | System Administrator | `mdforidsheikh72+admin@gmail.com` | Tasks, allocation, approvals, reports |
 | Employee | John Doe | `john.doe@smartworkflow.org` | Senior backend developer, one task in progress |
 | Employee | Jane Smith | `jane.smith@smartworkflow.org` | Lead UI/UX designer, work waiting for review |
@@ -384,7 +384,7 @@ sequenceDiagram
 ### Setting up Gmail
 
 1. Turn on **2-Step Verification** for the Google account, then create an **App password** (Google Account → Security → App passwords).
-2. In the app, sign in as `sheikhforid138+superadmin@gmail.com` and open **Settings → E-mail settings**.
+2. In the app, sign in as `mdforidsheikh72+superadmin@gmail.com` and open **Settings → E-mail settings**.
 3. Choose **SMTP**, then click the **Gmail** preset (`smtp.gmail.com`, port 587, STARTTLS).
 4. Username = your Gmail address. Password = the 16-character app password. From address = the same Gmail address.
 5. Set **App URL** to where users open the app (`http://localhost:5173` in development, `http://localhost:5000` in single-server mode).
