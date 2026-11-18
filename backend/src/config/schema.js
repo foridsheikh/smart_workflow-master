@@ -302,6 +302,18 @@ const migrations = [
       );
       CREATE INDEX IF NOT EXISTS idx_password_resets_user ON password_resets(user_id);
     `);
+  },
+
+  // 5 — scheduled auto-assignment for tasks
+  (db) => {
+    const taskColumns = db.exec('PRAGMA table_info(tasks)')[0].values.map((row) => row[1]);
+    if (!taskColumns.includes('auto_assign_at')) {
+      db.exec('ALTER TABLE tasks ADD COLUMN auto_assign_at TEXT NULL');
+    }
+    db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_tasks_auto_assign
+        ON tasks(status, auto_assign_at) WHERE status = 'PENDING';
+    `);
   }
 ];
 

@@ -198,6 +198,7 @@ export const calculateTaskRecommendations = async (taskId, ex = defaultExecutor,
     estimatedHours: Number(task.estimated_hours),
     remainingHours: Number(task.remaining_hours),
     deadline: task.deadline,
+    autoAssignAt: task.auto_assign_at ?? null,
     currentAssigneeId: task.assigned_employee_id ?? null,
     weights: WEIGHTS,
     requiredSkills: requiredSkills.map((s) => ({

@@ -73,9 +73,18 @@ export const getTaskRequiredSkills = (taskId, ex = defaultExecutor) =>
 
 export const insertTask = async (data, userId, ex = defaultExecutor) => {
   const result = await ex.query(
-    `INSERT INTO tasks (title, description, project_id, priority, estimated_hours, deadline, status, created_by)
-     VALUES (?, ?, ?, ?, ?, ?, 'PENDING', ?)`,
-    [data.title, data.description ?? null, data.projectId, data.priority || 'MEDIUM', data.estimatedHours, data.deadline, userId]
+    `INSERT INTO tasks (title, description, project_id, priority, estimated_hours, deadline, status, created_by, auto_assign_at)
+     VALUES (?, ?, ?, ?, ?, ?, 'PENDING', ?, ?)`,
+    [
+      data.title,
+      data.description ?? null,
+      data.projectId,
+      data.priority || 'MEDIUM',
+      data.estimatedHours,
+      data.deadline,
+      userId,
+      data.autoAssignAt ?? null
+    ]
   );
   return result.insertId;
 };
@@ -87,7 +96,8 @@ export const updateTaskFields = (id, fields, ex = defaultExecutor) => {
     projectId: 'project_id',
     priority: 'priority',
     estimatedHours: 'estimated_hours',
-    deadline: 'deadline'
+    deadline: 'deadline',
+    autoAssignAt: 'auto_assign_at'
   };
   const sets = [];
   const params = [];
@@ -123,6 +133,24 @@ export const setStatus = (taskId, status, ex = defaultExecutor) =>
   );
 
 export const deleteTask = (taskId, ex = defaultExecutor) => ex.query('DELETE FROM tasks WHERE id = ?', [taskId]);
+
+export const setAutoAssignAt = (taskId, autoAssignAt, ex = defaultExecutor) =>
+  ex.query(`UPDATE tasks SET auto_assign_at = ?, updated_at = DATETIME('now') WHERE id = ?`, [autoAssignAt, taskId]);
+
+export const clearAutoAssignAt = (taskId, ex = defaultExecutor) =>
+  ex.query(`UPDATE tasks SET auto_assign_at = NULL, updated_at = DATETIME('now') WHERE id = ?`, [taskId]);
+
+export const getDueAutoAssignTasks = (ex = defaultExecutor) =>
+  ex.query(
+    `SELECT t.id, t.title, t.created_by, t.auto_assign_at
+     FROM tasks t
+     LEFT JOIN task_assignments ta ON t.id = ta.task_id AND ta.is_current = 1
+     WHERE t.status = 'PENDING'
+       AND ta.id IS NULL
+       AND t.auto_assign_at IS NOT NULL
+       AND t.auto_assign_at <= DATETIME('now')
+     ORDER BY t.auto_assign_at ASC`
+  );
 
 export const getCurrentAssignment = (taskId, ex = defaultExecutor) =>
   ex.queryOne(

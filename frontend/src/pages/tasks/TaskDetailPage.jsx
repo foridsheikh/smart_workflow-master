@@ -49,6 +49,7 @@ import {
 import { Deadline, PriorityBadge, ProficiencyBadge, StatusBadge } from '../../components/badges'
 import TaskFormModal from '../../components/TaskFormModal'
 import TaskAttachments from '../../components/TaskAttachments'
+import { AutoAssignBanner, ScheduleAutoAssignModal } from '../../components/AutoAssignControl'
 
 const TRANSITION_STYLE = {
   IN_PROGRESS: { icon: Play, variant: 'primary' },
@@ -72,6 +73,7 @@ function TaskDetail({ task }) {
   const [editing, setEditing] = useState(false)
   const [transition, setTransition] = useState(null)
   const [tab, setTab] = useState('comments')
+  const [scheduleModalOpen, setScheduleModalOpen] = useState(false)
 
   const isAssignee = task.assigned_employee_id && task.assigned_employee_id === employeeId
   const done = task.status === 'COMPLETED' || task.status === 'CANCELLED'
@@ -153,6 +155,10 @@ function TaskDetail({ task }) {
           <Deadline value={task.deadline} overdue={Boolean(task.is_overdue)} done={done} />
         </div>
       </PageHeader>
+
+      <div className="mb-6">
+        <AutoAssignBanner task={task} onUpdated={refresh} />
+      </div>
 
       {/* Workflow actions */}
       {task.allowedTransitions?.length > 0 && (
@@ -243,6 +249,11 @@ function TaskDetail({ task }) {
                 <Button icon={Target} to={`/app/tasks/${task.id}/allocate`} size="sm">
                   {task.assigned_employee_id ? 'Reassign' : 'Find best match'}
                 </Button>
+                {!task.assigned_employee_id && !task.auto_assign_at && (
+                  <Button variant="secondary" size="sm" icon={Timer} onClick={() => setScheduleModalOpen(true)}>
+                    Set Auto-Assign Timer
+                  </Button>
+                )}
                 {task.assigned_employee_id && (
                   <Button variant="secondary" size="sm" icon={UserMinus} onClick={onUnassign} loading={unassign.isPending}>
                     Unassign
@@ -301,6 +312,7 @@ function TaskDetail({ task }) {
       </div>
 
       <TaskFormModal open={editing} onClose={() => setEditing(false)} task={task} />
+      <ScheduleAutoAssignModal taskId={task.id} open={scheduleModalOpen} onClose={() => setScheduleModalOpen(false)} onScheduled={refresh} />
       <TransitionModal task={task} to={transition} onClose={() => setTransition(null)} onDone={refresh} />
     </div>
   )
@@ -569,6 +581,9 @@ const HISTORY_ICONS = {
   CREATED: FilePlus,
   ASSIGNED: UserCheck,
   AUTO_ASSIGNED: UserCheck,
+  AUTO_ASSIGN_SCHEDULED: Timer,
+  AUTO_ASSIGN_CANCELLED: XCircle,
+  AUTO_ASSIGN_FAILED: XCircle,
   REASSIGNED: RotateCcw,
   UNASSIGNED: UserMinus,
   STATUS_CHANGED: Eye,

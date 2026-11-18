@@ -35,6 +35,8 @@ export const tasksApi = {
   recommendations: (id) => api.get(`/tasks/${id}/recommendations`),
   assign: (id, employeeId, force = false) => api.post(`/tasks/${id}/assign`, { employeeId, force }),
   autoAssign: (id) => api.post(`/tasks/${id}/auto-assign`),
+  scheduleAutoAssign: (id, delayMinutes) => api.post(`/tasks/${id}/schedule-auto-assign`, { delayMinutes }),
+  cancelAutoAssign: (id) => api.post(`/tasks/${id}/cancel-auto-assign`),
   reassign: (id, newEmployeeId, reassignmentReason, force = false) =>
     api.post(`/tasks/${id}/reassign`, { newEmployeeId, reassignmentReason: reassignmentReason || undefined, force }),
   unassign: (id, reason) => api.post(`/tasks/${id}/unassign`, { reason: reason || undefined }),

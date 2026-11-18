@@ -191,7 +191,9 @@ export const taskSchema = z.object({
   priority: z.enum(PRIORITIES).default('MEDIUM'),
   estimatedHours: z.coerce.number().positive('Estimated hours must be greater than 0').max(1000),
   deadline: dateTime('Deadline'),
-  requiredSkills: requiredSkills.optional().default([])
+  requiredSkills: requiredSkills.optional().default([]),
+  autoAssignDelayMinutes: z.coerce.number().int().min(1).max(10080).optional().nullable(),
+  autoAssignAt: dateTime('Auto-assign time').optional().nullable()
 });
 
 export const taskUpdateSchema = z.object({
@@ -201,7 +203,9 @@ export const taskUpdateSchema = z.object({
   priority: z.enum(PRIORITIES).optional(),
   estimatedHours: z.coerce.number().positive('Estimated hours must be greater than 0').max(1000).optional(),
   deadline: dateTime('Deadline').optional(),
-  requiredSkills: requiredSkills.optional()
+  requiredSkills: requiredSkills.optional(),
+  autoAssignDelayMinutes: z.coerce.number().int().min(1).max(10080).optional().nullable(),
+  autoAssignAt: dateTime('Auto-assign time').optional().nullable()
 });
 
 export const taskListQuery = z.object({
@@ -239,6 +243,15 @@ export const reassignSchema = z.object({
 export const unassignSchema = z.object({
   reason: z.string().trim().max(500).optional()
 });
+
+export const scheduleAutoAssignSchema = z
+  .object({
+    delayMinutes: z.coerce.number().int().min(1, 'Delay must be at least 1 minute').max(10080, 'Delay cannot exceed 7 days').optional(),
+    autoAssignAt: dateTime('Auto-assign time').optional()
+  })
+  .refine((d) => d.delayMinutes !== undefined || d.autoAssignAt !== undefined, {
+    message: 'Either delayMinutes or autoAssignAt must be provided'
+  });
 
 export const workLogSchema = z.object({
   workDate: dateOnly('Work date'),

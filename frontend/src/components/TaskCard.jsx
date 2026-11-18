@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import { Clock, FolderKanban, MessageSquare, User } from 'lucide-react'
 import { Avatar, ProgressBar, cn } from './ui'
 import { Deadline, PriorityBadge, StatusBadge } from './badges'
+import { AutoAssignBadge } from './AutoAssignControl'
 import { hours } from '../lib/format'
 
 /** Compact clickable task row used by dashboards and lists. */
@@ -21,6 +22,9 @@ export default function TaskCard({ task, showAssignee = true, className }) {
       <div className="flex flex-wrap items-center gap-2">
         <StatusBadge status={task.status} />
         <PriorityBadge priority={task.priority} />
+        {task.status === 'PENDING' && task.auto_assign_at && (
+          <AutoAssignBadge autoAssignAt={task.auto_assign_at} />
+        )}
         <span className="ml-auto">
           <Deadline value={task.deadline} overdue={Boolean(task.is_overdue)} done={done} className="text-xs" />
         </span>

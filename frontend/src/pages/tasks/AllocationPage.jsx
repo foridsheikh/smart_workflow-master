@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { AlertTriangle, Award, CalendarClock, ChevronDown, Gauge, Info, Target, UserCheck, Users, XCircle } from 'lucide-react'
+import { AlertTriangle, Award, CalendarClock, ChevronDown, Gauge, Info, Target, Timer, UserCheck, Users, XCircle } from 'lucide-react'
 import { tasksApi } from '../../lib/endpoints'
 import { hours } from '../../lib/format'
 import { Avatar, Badge, Button, Card, EmptyState, Field, FormError, Modal, PageHeader, QueryView, Textarea, cn } from '../../components/ui'
 import { Deadline, ProficiencyBadge, StatusBadge } from '../../components/badges'
+import { AutoAssignBanner, ScheduleAutoAssignModal } from '../../components/AutoAssignControl'
 
 const COMPONENTS = [
   { key: 'skillMatch', label: 'Skill match', weight: 40, icon: Target, color: 'bg-brand-500' },
@@ -28,6 +29,7 @@ function Allocation({ data }) {
   const queryClient = useQueryClient()
   const [selected, setSelected] = useState(null)
   const [showIneligible, setShowIneligible] = useState(false)
+  const [scheduleModalOpen, setScheduleModalOpen] = useState(false)
 
   const eligible = data.recommendations.filter((r) => r.isEligible)
   const ineligible = data.recommendations.filter((r) => !r.isEligible)
@@ -56,12 +58,28 @@ function Allocation({ data }) {
         actions={
           !isReassign &&
           !closed && (
-            <Button icon={UserCheck} onClick={() => auto.mutate()} loading={auto.isPending} disabled={eligible.length === 0}>
-              Assign best match
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              {!data.autoAssignAt && (
+                <Button variant="secondary" icon={Timer} onClick={() => setScheduleModalOpen(true)}>
+                  Set Auto-Assign Timer
+                </Button>
+              )}
+              <Button icon={UserCheck} onClick={() => auto.mutate()} loading={auto.isPending} disabled={eligible.length === 0}>
+                Assign best match
+              </Button>
+            </div>
           )
         }
       />
+
+      {data.autoAssignAt && !isReassign && !closed && (
+        <div className="mb-6">
+          <AutoAssignBanner
+            task={{ id: data.taskId, auto_assign_at: data.autoAssignAt, status: data.status, assigned_employee_id: data.currentAssigneeId }}
+            onUpdated={() => queryClient.invalidateQueries({ queryKey: ['recommendations', id] })}
+          />
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
         <div className="space-y-6">
@@ -194,6 +212,12 @@ function Allocation({ data }) {
       </div>
 
       <AssignModal data={data} rec={selected} onClose={() => setSelected(null)} onAssigned={afterAssign} />
+      <ScheduleAutoAssignModal
+        taskId={data.taskId}
+        open={scheduleModalOpen}
+        onClose={() => setScheduleModalOpen(false)}
+        onScheduled={() => queryClient.invalidateQueries({ queryKey: ['recommendations', String(data.taskId)] })}
+      />
     </div>
   )
 }

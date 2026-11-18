@@ -7,8 +7,9 @@ import * as userRepository from '../repositories/userRepository.js';
 import * as notificationRepository from '../repositories/notificationRepository.js';
 import * as workLogRepository from '../repositories/workLogRepository.js';
 import { calculateTaskRecommendations } from './allocationEngine.js';
+import { scheduleTimeoutCheck } from './autoAssignWorker.js';
 import { badRequest, conflict, forbidden, notFound } from '../utils/errors.js';
-import { toSqlDate, toSqlDateTime } from '../utils/dates.js';
+import { toSqlDate, toSqlDateTime, fromSqlDateTime } from '../utils/dates.js';
 import * as attachmentRepository from '../repositories/attachmentRepository.js';
 import { UPLOAD_KINDS, removeUploadedFile } from '../middleware/upload.js';
 
@@ -115,9 +116,31 @@ export const createTask = (data, user) =>
     await assertSkillsExist(data.requiredSkills, tx);
     assertFutureDeadline(data.deadline);
 
-    const taskId = await taskRepository.insertTask(data, user.id, tx);
+    let autoAssignAt = null;
+    let delayMinutes = null;
+    if (data.autoAssignDelayMinutes && Number(data.autoAssignDelayMinutes) > 0) {
+      delayMinutes = Number(data.autoAssignDelayMinutes);
+      autoAssignAt = toSqlDateTime(new Date(Date.now() + delayMinutes * 60 * 1000));
+    } else if (data.autoAssignAt) {
+      autoAssignAt = data.autoAssignAt;
+      delayMinutes = Math.max(1, Math.round((new Date(autoAssignAt).getTime() - Date.now()) / 60000));
+    }
+
+    const taskId = await taskRepository.insertTask({ ...data, autoAssignAt }, user.id, tx);
     await taskRepository.replaceRequiredSkills(taskId, data.requiredSkills, tx);
     await taskRepository.addHistory(taskId, user.id, 'CREATED', `Task created: ${data.title}`, tx);
+
+    if (autoAssignAt) {
+      await taskRepository.addHistory(
+        taskId,
+        user.id,
+        'AUTO_ASSIGN_SCHEDULED',
+        `Auto-assignment scheduled in ${delayMinutes} minute(s) (at ${autoAssignAt})`,
+        tx
+      );
+      scheduleTimeoutCheck(fromSqlDateTime(autoAssignAt).getTime() - Date.now());
+    }
+
     return taskRepository.getTaskById(taskId, tx);
   });
 
@@ -129,6 +152,22 @@ export const updateTask = (taskId, data, user) =>
     if (data.projectId !== undefined && data.projectId !== task.project_id) await assertProjectUsable(data.projectId, tx);
     if (data.deadline !== undefined && data.deadline !== task.deadline) assertFutureDeadline(data.deadline);
 
+    let autoAssignAtUpdated = undefined;
+    if (data.autoAssignDelayMinutes !== undefined) {
+      if (data.autoAssignDelayMinutes && Number(data.autoAssignDelayMinutes) > 0) {
+        const mins = Number(data.autoAssignDelayMinutes);
+        autoAssignAtUpdated = toSqlDateTime(new Date(Date.now() + mins * 60 * 1000));
+      } else {
+        autoAssignAtUpdated = null;
+      }
+    } else if (data.autoAssignAt !== undefined) {
+      autoAssignAtUpdated = data.autoAssignAt;
+    }
+
+    if (autoAssignAtUpdated !== undefined) {
+      data.autoAssignAt = autoAssignAtUpdated;
+    }
+
     await taskRepository.updateTaskFields(taskId, data, tx);
     if (data.requiredSkills) {
       await assertSkillsExist(data.requiredSkills, tx);
@@ -136,6 +175,28 @@ export const updateTask = (taskId, data, user) =>
     }
     const changed = Object.keys(data).filter((k) => data[k] !== undefined);
     await taskRepository.addHistory(taskId, user.id, 'UPDATED', `Updated: ${changed.join(', ')}`, tx);
+
+    if (autoAssignAtUpdated !== undefined) {
+      if (autoAssignAtUpdated) {
+        const mins = Math.max(1, Math.round((fromSqlDateTime(autoAssignAtUpdated).getTime() - Date.now()) / 60000));
+        await taskRepository.addHistory(
+          taskId,
+          user.id,
+          'AUTO_ASSIGN_SCHEDULED',
+          `Auto-assignment scheduled in ${mins} minute(s) (at ${autoAssignAtUpdated})`,
+          tx
+        );
+        scheduleTimeoutCheck(fromSqlDateTime(autoAssignAtUpdated).getTime() - Date.now());
+      } else {
+        await taskRepository.addHistory(
+          taskId,
+          user.id,
+          'AUTO_ASSIGN_CANCELLED',
+          'Scheduled auto-assignment was cancelled by administrator',
+          tx
+        );
+      }
+    }
 
     if (task.assigned_user_id) {
       await notificationRepository.createNotification(
@@ -222,14 +283,16 @@ const assignWithin = async (tx, task, employeeId, adminUser, { force, reason, ac
   const previous = await taskRepository.getCurrentAssignment(task.id, tx);
   if (previous) await taskRepository.closeCurrentAssignment(task.id, reason || 'Reassigned by administrator', tx);
 
-  const assignmentId = await taskRepository.insertAssignment(task.id, employeeId, adminUser.id, tx);
+  const actorId = adminUser?.id ?? task.created_by;
+  const assignmentId = await taskRepository.insertAssignment(task.id, employeeId, actorId, tx);
+  await taskRepository.clearAutoAssignAt(task.id, tx);
   // Reassigning keeps in-flight work in progress; a fresh assignment starts at ASSIGNED.
   if (task.status === 'PENDING') await taskRepository.setStatus(task.id, 'ASSIGNED', tx);
 
   const details = previous
     ? `Reassigned from ${describeEmployee(previous)} to ${describeEmployee(emp)}${reason ? `. Reason: ${reason}` : ''}`
     : `Assigned to ${describeEmployee(emp)} (score ${rec.totalScore})`;
-  await taskRepository.addHistory(task.id, adminUser.id, action, `${details}${force && !rec.isEligible ? ' [override]' : ''}`, tx);
+  await taskRepository.addHistory(task.id, actorId, action, `${details}${force && !rec.isEligible ? ' [override]' : ''}`, tx);
 
   await notificationRepository.createNotification(
     emp.user_id,
@@ -296,6 +359,124 @@ export const autoAssignTask = (taskId, adminUser) =>
     if (!best) throw conflict('No eligible employee found for this task. Review the required skills or add project members.');
     return assignWithin(tx, task, best.employeeId, adminUser, { force: false, action: 'AUTO_ASSIGNED' });
   });
+
+export const scheduleTaskAutoAssign = (taskId, { delayMinutes, autoAssignAt }, adminUser) =>
+  withTransaction(async (tx) => {
+    const task = await loadAssignableTask(taskId, tx);
+    if (task.assigned_employee_id) throw conflict('Task is already assigned.');
+    if (task.status !== 'PENDING') throw badRequest('Only pending unassigned tasks can be scheduled for auto-assignment.');
+
+    let targetTime = autoAssignAt;
+    let mins = delayMinutes;
+    if (delayMinutes) {
+      targetTime = toSqlDateTime(new Date(Date.now() + delayMinutes * 60 * 1000));
+    } else if (autoAssignAt) {
+      mins = Math.max(1, Math.round((fromSqlDateTime(autoAssignAt).getTime() - Date.now()) / 60000));
+    }
+    if (fromSqlDateTime(targetTime).getTime() <= Date.now()) {
+      throw badRequest('Scheduled auto-assign time must be in the future.');
+    }
+
+    await taskRepository.setAutoAssignAt(taskId, targetTime, tx);
+    await taskRepository.addHistory(
+      taskId,
+      adminUser.id,
+      'AUTO_ASSIGN_SCHEDULED',
+      `Auto-assignment scheduled in ${mins} minute(s) (at ${targetTime})`,
+      tx
+    );
+
+    scheduleTimeoutCheck(fromSqlDateTime(targetTime).getTime() - Date.now());
+    return taskRepository.getTaskById(taskId, tx);
+  });
+
+export const cancelTaskAutoAssign = (taskId, adminUser) =>
+  withTransaction(async (tx) => {
+    const task = await taskRepository.getTaskById(taskId, tx);
+    if (!task) throw notFound('Task not found');
+    if (!task.auto_assign_at) throw badRequest('No auto-assignment is scheduled for this task.');
+
+    await taskRepository.clearAutoAssignAt(taskId, tx);
+    await taskRepository.addHistory(
+      taskId,
+      adminUser.id,
+      'AUTO_ASSIGN_CANCELLED',
+      'Scheduled auto-assignment was cancelled by administrator',
+      tx
+    );
+    return taskRepository.getTaskById(taskId, tx);
+  });
+
+export const processDueAutoAssignments = async () => {
+  const dueTasks = await taskRepository.getDueAutoAssignTasks();
+  if (!dueTasks.length) return [];
+
+  const results = [];
+  for (const item of dueTasks) {
+    try {
+      const assigned = await withTransaction(async (tx) => {
+        const task = await taskRepository.getTaskById(item.id, tx);
+        if (!task || task.status !== 'PENDING' || task.assigned_employee_id) {
+          await taskRepository.clearAutoAssignAt(item.id, tx);
+          return null;
+        }
+
+        const { recommendations } = await calculateTaskRecommendations(item.id, tx);
+        const best = recommendations.find((r) => r.isEligible);
+        if (!best) {
+          await taskRepository.clearAutoAssignAt(item.id, tx);
+          await taskRepository.addHistory(
+            item.id,
+            item.created_by,
+            'AUTO_ASSIGN_FAILED',
+            'Scheduled auto-assignment failed: No eligible candidates were available.',
+            tx
+          );
+          const adminIds = await userRepository.listAdminUserIds(tx);
+          await notificationRepository.notifyMany(
+            adminIds,
+            'Auto-assignment failed',
+            `Could not auto-assign "${task.title}": no eligible employees available.`,
+            'TASK_UNASSIGNED',
+            tx
+          );
+          return null;
+        }
+
+        const res = await assignWithin(
+          tx,
+          task,
+          best.employeeId,
+          { id: item.created_by },
+          { force: false, action: 'AUTO_ASSIGNED' }
+        );
+
+        const adminIds = await userRepository.listAdminUserIds(tx);
+        await notificationRepository.notifyMany(
+          adminIds,
+          'Task auto-assigned',
+          `"${task.title}" was automatically assigned to ${best.employeeName} (score: ${best.totalScore}) after scheduled timer.`,
+          'TASK_ASSIGNED',
+          tx
+        );
+
+        return res;
+      });
+
+      if (assigned) {
+        results.push(assigned);
+      }
+    } catch (err) {
+      console.error(`[AutoAssign] Error processing task #${item.id}:`, err.message);
+      try {
+        await taskRepository.clearAutoAssignAt(item.id);
+      } catch (e) {
+        // ignore
+      }
+    }
+  }
+  return results;
+};
 
 // ------------------------------------------------------------------ work logs
 

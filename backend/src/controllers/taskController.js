@@ -10,7 +10,8 @@ import {
   statusChangeSchema,
   assignSchema,
   reassignSchema,
-  unassignSchema
+  unassignSchema,
+  scheduleAutoAssignSchema
 } from '../validators/schemas.js';
 
 export const getTasks = asyncHandler(async (req, res) => {
@@ -80,6 +81,19 @@ export const autoAssignTask = asyncHandler(async (req, res) => {
   const id = parseId(req.params.id, 'task id');
   const result = await taskService.autoAssignTask(id, req.user);
   res.status(200).json({ success: true, message: `Task auto-assigned to ${result.employeeName}`, data: result });
+});
+
+export const scheduleAutoAssign = asyncHandler(async (req, res) => {
+  const id = parseId(req.params.id, 'task id');
+  const data = scheduleAutoAssignSchema.parse(req.body);
+  const task = await taskService.scheduleTaskAutoAssign(id, data, req.user);
+  res.status(200).json({ success: true, message: 'Auto-assignment scheduled successfully', data: task });
+});
+
+export const cancelAutoAssign = asyncHandler(async (req, res) => {
+  const id = parseId(req.params.id, 'task id');
+  const task = await taskService.cancelTaskAutoAssign(id, req.user);
+  res.status(200).json({ success: true, message: 'Auto-assignment timer cancelled', data: task });
 });
 
 export const getTaskHistory = asyncHandler(async (req, res) => {

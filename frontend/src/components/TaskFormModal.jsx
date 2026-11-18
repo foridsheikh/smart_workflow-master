@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Sparkles, Timer, Trash2 } from 'lucide-react'
 import { projectsApi, skillsApi, tasksApi } from '../lib/endpoints'
 import { PRIORITIES, PRIORITY_META, PROFICIENCY_LEVELS, PROFICIENCY_META, fromDateTimeInput, toDateTimeInput } from '../lib/format'
-import { Button, Field, FormError, IconButton, Input, Modal, Select, Textarea } from './ui'
+import { Button, Field, FormError, IconButton, Input, Modal, Select, Textarea, cn } from './ui'
 
 const defaultDeadline = () => {
   const d = new Date(Date.now() + 7 * 86400000)
@@ -22,6 +22,7 @@ const fromTask = (task) =>
         estimatedHours: String(task.estimated_hours),
         deadline: toDateTimeInput(task.deadline),
         requiredSkills: (task.requiredSkills || []).map((s) => ({ skillId: String(s.skill_id), minProficiencyLevel: s.min_proficiency_level })),
+        autoAssignDelayMinutes: '',
       }
     : {
         title: '',
@@ -31,6 +32,7 @@ const fromTask = (task) =>
         estimatedHours: '',
         deadline: defaultDeadline(),
         requiredSkills: [],
+        autoAssignDelayMinutes: '',
       }
 
 /**
@@ -105,6 +107,9 @@ function TaskForm({ onClose, task, defaultProjectId, onSaved }) {
     }
     // Only send the deadline on edit when it actually changed (backend requires future deadlines).
     if (!isEdit || form.deadline !== toDateTimeInput(task.deadline)) payload.deadline = fromDateTimeInput(form.deadline)
+    if (form.autoAssignDelayMinutes && Number(form.autoAssignDelayMinutes) > 0) {
+      payload.autoAssignDelayMinutes = Number(form.autoAssignDelayMinutes)
+    }
     mutation.mutate(payload)
   }
 
@@ -167,6 +172,73 @@ function TaskForm({ onClose, task, defaultProjectId, onSaved }) {
             {(id) => <Input id={id} type="datetime-local" value={form.deadline} onChange={set('deadline')} error={errors.deadline} />}
           </Field>
         </div>
+
+        {(!isEdit || (!task.assigned_employee_id && task.status === 'PENDING')) && (
+          <div className="rounded-xl border border-indigo-200 bg-gradient-to-br from-indigo-50/60 via-white to-blue-50/40 p-4 shadow-2xs">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-xs">
+                  <Timer className="size-4" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">Auto-assign Timer (স্বয়ংক্রিয় অ্যাসাইন টাইম)</p>
+                  <p className="text-xs text-slate-500">নির্দিষ্ট মিনিট পর স্বয়ংক্রিয়ভাবে বেস্ট কর্মীর কাছে অ্যাসাইন হবে</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {[
+                  { label: 'Off', val: '' },
+                  { label: '1 min', val: '1' },
+                  { label: '2 min', val: '2' },
+                  { label: '5 min', val: '5' },
+                  { label: '10 min', val: '10' },
+                  { label: '30 min', val: '30' },
+                ].map((preset) => (
+                  <button
+                    key={preset.label}
+                    type="button"
+                    onClick={() => setForm({ ...form, autoAssignDelayMinutes: preset.val })}
+                    className={cn(
+                      'rounded-md px-2.5 py-1 text-xs font-semibold transition',
+                      (preset.val === '' && !form.autoAssignDelayMinutes) || form.autoAssignDelayMinutes === preset.val
+                        ? 'bg-indigo-600 text-white shadow-xs'
+                        : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                    )}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-3">
+              <div className="flex items-center gap-2">
+                <Input
+                  type="number"
+                  min="1"
+                  max="10080"
+                  placeholder="বা কাস্টম মিনিট দিন (e.g. 5)"
+                  value={form.autoAssignDelayMinutes || ''}
+                  onChange={(e) => setForm({ ...form, autoAssignDelayMinutes: e.target.value })}
+                  className="max-w-xs text-sm"
+                />
+                <span className="text-xs text-slate-600 font-medium">মিনিট পর অটো-অ্যাসাইন হবে</span>
+              </div>
+              {form.autoAssignDelayMinutes && Number(form.autoAssignDelayMinutes) > 0 ? (
+                <div className="mt-2.5 flex items-start gap-1.5 rounded-lg bg-indigo-50 p-2.5 text-xs text-indigo-900 border border-indigo-200/60">
+                  <Sparkles className="size-4 shrink-0 text-indigo-600 mt-0.5" />
+                  <p>
+                    টাস্কটি প্রথমে <strong>Unassigned (Pending)</strong> হিসেবে তৈরি হবে। ঠিক <strong>{form.autoAssignDelayMinutes} মিনিট পর</strong> এআই ইঞ্জিন স্বয়ংক্রিয়ভাবে যার ম্যাচিং স্কোর সবচেয়ে বেশি তার কাছে টাস্কটি অ্যাসাইন করে দেবে!
+                  </p>
+                </div>
+              ) : (
+                <p className="mt-2 text-xs text-slate-500">
+                  টাইমার সেট না করলে টাস্কটি আন-অ্যাসাইনড থাকবে, যা আপনি পরে ম্যানুয়ালি বা টাইমার দিয়ে অ্যাসাইন করতে পারবেন।
+                </p>
+              )}
+            </div>
+          </div>
+        )}
 
         <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
           <div className="flex items-center justify-between">

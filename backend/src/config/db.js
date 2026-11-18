@@ -70,6 +70,19 @@ const initialise = () => {
   if (migrationReport.from !== migrationReport.to && !inMemory && migrationReport.from > 0) {
     console.log(`Database migrated v${migrationReport.from} → v${migrationReport.to} (backup: ${migrationReport.backup})`);
   }
+  // Defensive check: ensure tasks table has auto_assign_at column if tasks table exists
+  try {
+    const tableCheck = db.exec("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='tasks'");
+    if (tableCheck[0]?.values[0][0] > 0) {
+      const taskColumns = db.exec('PRAGMA table_info(tasks)')[0].values.map((row) => row[1]);
+      if (!taskColumns.includes('auto_assign_at')) {
+        db.exec('ALTER TABLE tasks ADD COLUMN auto_assign_at TEXT NULL');
+        db.exec("CREATE INDEX IF NOT EXISTS idx_tasks_auto_assign ON tasks(status, auto_assign_at) WHERE status = 'PENDING'");
+      }
+    }
+  } catch (e) {
+    console.error('Error verifying auto_assign_at column:', e.message);
+  }
   const [{ values }] = db.exec('SELECT COUNT(*) FROM users');
   if (values[0][0] === 0) {
     populateSeedData(db);

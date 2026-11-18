@@ -25,6 +25,8 @@ router.get('/:id/history', taskController.getTaskHistory);
 router.get('/:id/recommendations', requireAdmin, taskController.getTaskRecommendations);
 router.post('/:id/assign', requireAdmin, taskController.assignTask);
 router.post('/:id/auto-assign', requireAdmin, taskController.autoAssignTask);
+router.post('/:id/schedule-auto-assign', requireAdmin, taskController.scheduleAutoAssign);
+router.post('/:id/cancel-auto-assign', requireAdmin, taskController.cancelAutoAssign);
 router.post('/:id/reassign', requireAdmin, taskController.reassignTask);
 router.post('/:id/unassign', requireAdmin, taskController.unassignTask);
 
