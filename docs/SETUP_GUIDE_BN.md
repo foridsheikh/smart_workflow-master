@@ -1,6 +1,6 @@
 # প্রজেক্ট সেটআপ ও রান করার সম্পূর্ণ নির্দেশিকা (Setup Guide in Bangla)
 
-এই ফাইলটিতে **Smart Workforce & Task Allocation System** (Express + SQLite API এবং React Frontend) প্রজেক্টটি লোকাল পিসিতে CMD (Command Prompt) বা PowerShell দিয়ে সেটআপ এবং রান করার ধাপগুলো সহজ বাংলায় তুলে ধরা হলো।
+এই ফাইলটিতে **Smart Workflow & Task Allocation System** (Express + SQLite API এবং React Frontend) প্রজেক্টটি লোকাল পিসিতে CMD (Command Prompt) বা PowerShell দিয়ে সেটআপ এবং রান করার ধাপগুলো সহজ বাংলায় তুলে ধরা হলো।
 
 ---
 

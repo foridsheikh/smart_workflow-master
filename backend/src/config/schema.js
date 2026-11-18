@@ -261,7 +261,7 @@ const migrations = [
         smtp_secure INTEGER NOT NULL DEFAULT 0,
         smtp_user TEXT NULL,
         smtp_password_enc TEXT NULL,
-        from_name TEXT NOT NULL DEFAULT 'Smart Workforce',
+        from_name TEXT NOT NULL DEFAULT 'Smart Workflow',
         from_email TEXT NOT NULL DEFAULT 'no-reply@smartworkflow.org',
         reply_to TEXT NULL,
         app_url TEXT NOT NULL DEFAULT 'http://localhost:5173',

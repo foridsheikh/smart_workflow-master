@@ -1,6 +1,6 @@
 # Viva Preparation: Questions and Answers
 
-This folder helps you prepare for the viva (oral exam) on the **Smart Workforce & Task Allocation System**. Every answer was checked against the real code in this repository; links go to the exact files, often with line numbers.
+This folder helps you prepare for the viva (oral exam) on the **Smart Workflow & Task Allocation System**. Every answer was checked against the real code in this repository; links go to the exact files, often with line numbers.
 
 ## How to use these docs
 
@@ -39,7 +39,7 @@ This folder helps you prepare for the viva (oral exam) on the **Smart Workforce 
 
 ## 30-second elevator pitch
 
-> "Our project is the **Smart Workforce and Task Allocation System**. In many teams, managers give tasks by memory, so some people are overloaded and others are idle, and tasks go to people without the right skills. Our web application solves this. For every task it first filters out people who don't have the required skills, and then ranks the rest with a transparent score based on skill depth, free capacity, number of parallel tasks and the deadline. The manager can assign with one click. Then the task follows a strict workflow — assigned, in progress, review, completed — with time logs, comments, files, notifications and e-mail, and a full audit history. It's built with React, Node.js/Express and SQLite, and it is covered by 106 automated tests."
+> "Our project is the **Smart Workflow and Task Allocation System**. In many teams, managers give tasks by memory, so some people are overloaded and others are idle, and tasks go to people without the right skills. Our web application solves this. For every task it first filters out people who don't have the required skills, and then ranks the rest with a transparent score based on skill depth, free capacity, number of parallel tasks and the deadline. The manager can assign with one click. Then the task follows a strict workflow — assigned, in progress, review, completed — with time logs, comments, files, notifications and e-mail, and a full audit history. It's built with React, Node.js/Express and SQLite, and it is covered by 106 automated tests."
 
 ## 2-minute system walkthrough
 
@@ -67,4 +67,4 @@ This folder helps you prepare for the viva (oral exam) on the **Smart Workforce 
 
 ---
 
-<sub>Smart Workforce documentation · by [Md Forid Sheikh](https://github.com/forid0000) · [GitHub](https://github.com/forid0000)</sub>
+<sub>Smart Workflow documentation · by [Md Forid Sheikh](https://github.com/forid0000) · [GitHub](https://github.com/forid0000)</sub>

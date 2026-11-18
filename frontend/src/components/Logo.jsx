@@ -17,7 +17,7 @@ export default function Logo({ to = '/', dark = false, subtitle = true, classNam
     <Link to={to} className={cn('flex items-center gap-2.5', className)}>
       <LogoMark />
       <span className="leading-tight">
-        <span className={cn('block text-[15px] font-bold tracking-tight', dark ? 'text-white' : 'text-slate-900')}>Smart Workforce</span>
+        <span className={cn('block text-[15px] font-bold tracking-tight', dark ? 'text-white' : 'text-slate-900')}>Smart Workflow</span>
         {subtitle && (
           <span className={cn('block text-[11px] font-medium', dark ? 'text-brand-100/60' : 'text-slate-500')}>Task Allocation System</span>
         )}

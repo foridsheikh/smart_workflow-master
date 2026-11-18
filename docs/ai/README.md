@@ -1,4 +1,4 @@
-# Smart Workforce: Engineering Docs
+# Smart Workflow: Engineering Docs
 
 These documents describe the system **as it is built now**: an Express + SQLite REST API with a React frontend. Start here.
 
@@ -24,4 +24,4 @@ These documents describe the system **as it is built now**: an Express + SQLite 
 
 ---
 
-<sub>Smart Workforce documentation · by [Md Forid Sheikh](https://github.com/forid0000) · [GitHub](https://github.com/forid0000)</sub>
+<sub>Smart Workflow documentation · by [Md Forid Sheikh](https://github.com/forid0000) · [GitHub](https://github.com/forid0000)</sub>

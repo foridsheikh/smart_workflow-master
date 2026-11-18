@@ -1,7 +1,7 @@
--- Smart Workforce & Task Allocation System
+-- Smart Workflow & Task Allocation System
 -- SQL JOIN Demonstrations for University Project Presentation
 
-USE smart_workforce_db;
+USE smart_workflow_db;
 
 -- 1. INNER JOIN: Retrieve Employees with their Department Names
 SELECT

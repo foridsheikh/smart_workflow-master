@@ -1,7 +1,7 @@
--- Smart Workforce & Task Allocation System
+-- Smart Workflow & Task Allocation System
 -- SQL Aggregation, Subquery, and Reporting Demonstrations
 
-USE smart_workforce_db;
+USE smart_workflow_db;
 
 -- 1. Employee Outstanding Workload Report (AGGREGATION & GROUP BY)
 SELECT

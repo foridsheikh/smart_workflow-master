@@ -1,7 +1,7 @@
--- Smart Workforce & Task Allocation System
+-- Smart Workflow & Task Allocation System
 -- Index Optimization and Performance Tuning Script
 
-USE smart_workforce_db;
+USE smart_workflow_db;
 
 -- 1. Performance Indexes for Frequent WHERE and JOIN Operations
 

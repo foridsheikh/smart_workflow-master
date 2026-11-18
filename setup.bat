@@ -1,6 +1,6 @@
 @echo off
 echo =======================================================
-echo   Smart Workforce ^& Task Allocation System - Setup
+echo   Smart Workflow ^& Task Allocation System - Setup
 echo =======================================================
 echo.
 echo Installing root, backend and frontend dependencies...

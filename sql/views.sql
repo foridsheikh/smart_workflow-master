@@ -1,7 +1,7 @@
--- Smart Workforce & Task Allocation System
+-- Smart Workflow & Task Allocation System
 -- Database Views for Simplified Reporting and Dashboard Analytics
 
-USE smart_workforce_db;
+USE smart_workflow_db;
 
 -- 1. View: Active Task Allocations Summary
 CREATE OR REPLACE VIEW v_active_task_allocations AS

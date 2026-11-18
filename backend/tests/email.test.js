@@ -10,7 +10,7 @@ const BASE = {
   smtpPort: 587,
   smtpSecure: false,
   smtpUser: '',
-  fromName: 'Smart Workforce',
+  fromName: 'Smart Workflow',
   fromEmail: 'no-reply@smartworkflow.org',
   replyTo: '',
   appUrl: 'http://localhost:5173',

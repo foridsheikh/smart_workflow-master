@@ -68,7 +68,7 @@ const employeeSkills = [
 
 // [id, name, description, department_id, start offset, end offset, requires_membership, created_by]
 const projects = [
-  [1, 'Smart Workforce Management', 'University flagship project for intelligent task allocation', 1, '-14 days', '+60 days', 0, 2],
+  [1, 'Smart Workflow Management', 'University flagship project for intelligent task allocation', 1, '-14 days', '+60 days', 0, 2],
   [2, 'Corporate Portal Redesign', 'Modernization of corporate web interface and design system', 2, '-7 days', '+45 days', 1, 2],
   [3, 'Mobile Banking QA', 'Quality assurance cycle for the mobile banking release', 3, '-21 days', '+30 days', 0, 1]
 ];

@@ -1,5 +1,5 @@
 /**
- * Smart Workforce & Task Allocation System: React routes
+ * Smart Workflow & Task Allocation System: React routes
  * @author Md Forid Sheikh <https://github.com/forid0000>
  */
 import { lazy, Suspense } from 'react'

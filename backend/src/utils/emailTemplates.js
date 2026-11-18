@@ -57,22 +57,22 @@ const joinUrl = (base, path) => `${String(base || '').replace(/\/+$/, '')}${path
 export const renderEmail = ({ title, message, type, appUrl, name, actionUrl, actionLabel, footnote }) => {
   const event = EVENT_BY_TYPE.get(type);
   const link = actionUrl || joinUrl(appUrl, event?.path ?? '/app');
-  const label = actionLabel || 'Open Smart Workforce';
+  const label = actionLabel || 'Open Smart Workflow';
   const greeting = name ? `Hi ${name},` : 'Hello,';
-  const subject = `${title} · Smart Workforce`;
+  const subject = `${title} · Smart Workflow`;
 
-  const text = [greeting, '', message, '', `${label}: ${link}`, footnote ? `\n${footnote}` : '', '', '— Smart Workforce']
+  const text = [greeting, '', message, '', `${label}: ${link}`, footnote ? `\n${footnote}` : '', '', '— Smart Workflow']
     .filter((line) => line !== undefined)
     .join('\n');
 
   const html = `<!doctype html>
-<!-- Smart Workforce · crafted by Md Forid Sheikh · https://github.com/forid0000 -->
+<!-- Smart Workflow · crafted by Md Forid Sheikh · https://github.com/forid0000 -->
 <html><body style="margin:0;padding:0;background:#f1f5f2;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:#0f172a">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f2;padding:32px 12px">
     <tr><td align="center">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0">
         <tr><td style="background:#054f31;padding:20px 28px;color:#ffffff;font-size:17px;font-weight:700">
-          <span style="display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;border-radius:7px;background:#12b76a;margin-right:8px">&#10003;</span>Smart Workforce
+          <span style="display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;border-radius:7px;background:#12b76a;margin-right:8px">&#10003;</span>Smart Workflow
         </td></tr>
         <tr><td style="padding:28px">
           <h1 style="margin:0 0 14px;font-size:20px;line-height:1.3;color:#0f172a">${escapeHtml(title)}</h1>
@@ -82,7 +82,7 @@ export const renderEmail = ({ title, message, type, appUrl, name, actionUrl, act
           ${footnote ? `<p style="margin:24px 0 0;font-size:13px;line-height:1.5;color:#64748b">${escapeHtml(footnote)}</p>` : ''}
         </td></tr>
         <tr><td style="padding:16px 28px;border-top:1px solid #f1f5f9;font-size:12px;color:#94a3b8">
-          You received this e-mail because of activity in Smart Workforce &amp; Task Allocation System.
+          You received this e-mail because of activity in Smart Workflow &amp; Task Allocation System.
         </td></tr>
       </table>
     </td></tr>

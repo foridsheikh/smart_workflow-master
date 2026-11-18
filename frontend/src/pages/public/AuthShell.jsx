@@ -53,7 +53,7 @@ export default function AuthShell({ title, subtitle, children, footer }) {
         </div>
 
         <p className="text-sm text-brand-100/50">
-          Smart Workforce &amp; Task Allocation System
+          Smart Workflow &amp; Task Allocation System
           <a href="https://github.com/forid0000" rel="author" target="_blank" className="ml-2 text-xs text-brand-100/30 hover:text-brand-100/70">
             · by Md Forid Sheikh
           </a>

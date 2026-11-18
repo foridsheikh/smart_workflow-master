@@ -4,7 +4,7 @@ Site: https://github.com/forid0000
 GitHub: https://github.com/forid0000
 
 /* PROJECT */
-Name: Smart Workforce & Task Allocation System
-Source: https://github.com/forid0000/Smart-Workforce
+Name: Smart Workflow & Task Allocation System
+Source: https://github.com/forid0000/smart_workflow-master
 Standards: HTML5, CSS3, ES2023
 Components: React, Vite, TanStack Query, Tailwind CSS, Express, SQLite (sql.js)

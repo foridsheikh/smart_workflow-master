@@ -6,7 +6,7 @@ Related reading: [README.md](../../README.md), [ARCHITECTURE.md](../ai/ARCHITECT
 ---
 
 ### Q: What is the name of your project and what does it do, in one sentence?
-**[Basic]** It is the **Smart Workforce & Task Allocation System**. It helps a manager give each task to the best-suited employee, based on skills, current workload, availability and the deadline. Then it tracks the task through work, review and completion.
+**[Basic]** It is the **Smart Workflow & Task Allocation System**. It helps a manager give each task to the best-suited employee, based on skills, current workload, availability and the deadline. Then it tracks the task through work, review and completion.
 
 ### Q: What problem does it solve?
 **[Basic]** In many small teams, a manager assigns tasks "by memory" or by asking around. This causes problems:

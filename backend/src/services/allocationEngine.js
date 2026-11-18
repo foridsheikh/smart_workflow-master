@@ -1,5 +1,5 @@
 /**
- * Smart Workforce & Task Allocation System: smart allocation engine
+ * Smart Workflow & Task Allocation System: smart allocation engine
  * @author Md Forid Sheikh <https://github.com/forid0000>
  */
 import { defaultExecutor } from '../config/db.js';

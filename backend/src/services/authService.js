@@ -83,7 +83,7 @@ export const createAccount = async (data, { approvedBy = null } = {}) => {
     if (approvedBy) {
       await notificationRepository.createNotification(
         userId,
-        'Welcome to Smart Workforce',
+        'Welcome to Smart Workflow',
         `An administrator created your account (${data.email}). Sign in with the password they gave you, then change it from your profile.`,
         'ACCOUNT_CREATED',
         tx
@@ -177,7 +177,7 @@ export const requestPasswordReset = async (email) => {
       user.id,
       {
         title: 'Reset your password',
-        message: 'We received a request to reset the password for your Smart Workforce account. Use the button below to choose a new one.',
+        message: 'We received a request to reset the password for your Smart Workflow account. Use the button below to choose a new one.',
         type: 'PASSWORD_RESET_LINK',
         actionUrl: link,
         actionLabel: 'Choose a new password',

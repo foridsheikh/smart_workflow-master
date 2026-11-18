@@ -1,5 +1,5 @@
 /**
- * Smart Workforce & Task Allocation System: Express application
+ * Smart Workflow & Task Allocation System: Express application
  * @author Md Forid Sheikh <https://github.com/forid0000>
  */
 import express from 'express';
@@ -56,7 +56,7 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
     status: 'UP',
-    system: 'Smart Workforce REST API',
+    system: 'Smart Workflow REST API',
     schemaVersion: SCHEMA_VERSION,
     timestamp: new Date().toISOString(),
     environment: env.NODE_ENV,

@@ -73,7 +73,7 @@ function Sidebar({ onNavigate, collapsed = false, onToggle }) {
     <div className="flex h-full flex-col bg-brand-950">
       <div className={cn('flex h-16 shrink-0 items-center', collapsed ? 'justify-center' : 'px-5')}>
         {collapsed ? (
-          <Link to="/app" aria-label="Smart Workforce home">
+          <Link to="/app" aria-label="Smart Workflow home">
             <LogoMark />
           </Link>
         ) : (

@@ -1,5 +1,5 @@
 {
-  "name": "smart-workforce-frontend",
+  "name": "smart-workflow-frontend",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -29,18 +29,18 @@
     "tailwindcss": "^4.3.3",
     "vite": "^8.3.0"
   },
-  "description": "React frontend for the Smart Workforce & Task Allocation System",
+  "description": "React frontend for the Smart Workflow & Task Allocation System",
   "author": {
     "name": "Md Forid Sheikh",
     "url": "https://github.com/forid0000"
   },
-  "homepage": "https://github.com/forid0000/Smart-Workforce",
+  "homepage": "https://github.com/forid0000/smart_workflow-master",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/forid0000/Smart-Workforce.git"
+    "url": "git+https://github.com/forid0000/smart_workflow-master.git"
   },
   "bugs": {
-    "url": "https://github.com/forid0000/Smart-Workforce/issues"
+    "url": "https://github.com/forid0000/smart_workflow-master/issues"
   },
   "license": "ISC"
 }

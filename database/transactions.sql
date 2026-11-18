@@ -1,7 +1,7 @@
--- Smart Workforce & Task Allocation System
+-- Smart Workflow & Task Allocation System
 -- Transaction Control Demonstrations (ACID Properties & Rollback Safety)
 
-USE smart_workforce_db;
+USE smart_workflow_db;
 
 -- 1. TRANSACTION DEMO: Employee Task Reassignment with Audit History
 -- Reassign Task 1 from current employee to new employee (e.g. Employee ID 4)

@@ -1,7 +1,7 @@
--- Smart Workforce & Task Allocation System
+-- Smart Workflow & Task Allocation System
 -- Sample Data Seed Script
 
-USE smart_workforce_db;
+USE smart_workflow_db;
 
 -- 1. Insert Departments
 INSERT INTO departments (id, name, description) VALUES
@@ -55,7 +55,7 @@ ON DUPLICATE KEY UPDATE proficiency_level=VALUES(proficiency_level);
 
 -- 6. Insert Projects
 INSERT INTO projects (id, name, description, department_id, start_date, end_date, created_by) VALUES
-(1, 'Smart Workforce Management', 'University flagship project for intelligent task allocation', 1, '2026-10-01', '2026-12-31', 1),
+(1, 'Smart Workflow Management', 'University flagship project for intelligent task allocation', 1, '2026-10-01', '2026-12-31', 1),
 (2, 'Corporate Portal Redesign', 'Modernization of corporate web interface and design system', 2, '2026-10-15', '2026-11-30', 1)
 ON DUPLICATE KEY UPDATE name=VALUES(name);
 

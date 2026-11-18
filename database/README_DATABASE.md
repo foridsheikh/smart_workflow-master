@@ -1,4 +1,4 @@
-# Smart Workforce System - Database Central Monitoring Hub (ডাটাবেজ মনিটরিং গাইড)
+# Smart Workflow System - Database Central Monitoring Hub (ডাটাবেজ মনিটরিং গাইড)
 
 এই `database/` ফোল্ডারটিতে প্রজেক্টের সমস্ত SQL স্ক্রিপ্ট, ডাটাবেজ স্কিমা, ভিউ, ট্রানজেকশন, রিপোর্টিং কুয়েরি এবং ERD ডায়াগ্রাম এক জায়গায় রাখা হয়েছে যাতে আপনি খুব সহজেই সিস্টেমের ডাটাবেজ মনিটর ও টেস্ট করতে পারেন।
 
@@ -27,7 +27,7 @@
 
 ### ১ম ধাপ: ডাটাবেজ ও টেবিল তৈরি করুন
 MySQL Workbench এ `schema_reference.sql` ওপেন করে **Execute (Lightning Icon)** প্রেস করুন।
-- এটি `smart_workforce_db` ডাটাবেজ ও ১৪টি টেবিল তৈরি করবে।
+- এটি `smart_workflow_db` ডাটাবেজ ও ১৪টি টেবিল তৈরি করবে।
 
 ### ২য় ধাপ: টেস্ট ডেটা যুক্ত করুন
 `sample_data.sql` ফাইলটি ওপেন করে রান করুন।
@@ -48,7 +48,7 @@ MySQL Workbench এ সরাসরি যেকোনো সময় নিচে
 
 ### ১. সব একটিভ টাস্ক ও অ্যাসাইনমেন্ট মনিটর করা:
 ```sql
-USE smart_workforce_db;
+USE smart_workflow_db;
 SELECT * FROM v_active_task_allocations;
 ```
 

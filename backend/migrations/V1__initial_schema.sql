@@ -1,4 +1,4 @@
--- Smart Workforce & Task Allocation System
+-- Smart Workflow & Task Allocation System
 -- Migration V1: Initial 3NF Relational Database Schema with Multi-Role Hierarchy
 -- Target Engine: MySQL 8.x InnoDB
 

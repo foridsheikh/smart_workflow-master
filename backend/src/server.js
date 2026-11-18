@@ -1,5 +1,5 @@
 /**
- * Smart Workforce & Task Allocation System: HTTP server entry point
+ * Smart Workflow & Task Allocation System: HTTP server entry point
  * @author Md Forid Sheikh <https://github.com/forid0000>
  */
 import app from './app.js';
@@ -10,7 +10,7 @@ import { startAutoAssignWorker, stopAutoAssignWorker } from './services/autoAssi
 
 const server = app.listen(env.PORT, '0.0.0.0', () => {
   console.log('=======================================================');
-  console.log('  Smart Workforce & Task Allocation Backend Server');
+  console.log('  Smart Workflow & Task Allocation Backend Server');
   console.log(`  Listening on: http://0.0.0.0:${env.PORT}`);
   console.log(`  Environment: ${env.NODE_ENV}`);
   console.log('  Crafted by Md Forid Sheikh · https://github.com/forid0000');

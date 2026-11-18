@@ -58,7 +58,7 @@ export const rejectRegistration = asyncHandler(async (req, res) => {
     // E-mail only: a rejected account can't sign in to read in-app notifications.
     await emailRepository.enqueueForUser(
       userId,
-      { title: 'Registration not approved', message: `Your Smart Workforce registration was not approved. Reason: ${reason}`, type: 'ACCOUNT_REJECTED', force: true },
+      { title: 'Registration not approved', message: `Your Smart Workflow registration was not approved. Reason: ${reason}`, type: 'ACCOUNT_REJECTED', force: true },
       tx
     );
   });

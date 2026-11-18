@@ -1,6 +1,6 @@
 > **Note:** This document predates the React rewrite and may be outdated (it may mention the removed Flutter app). The current, maintained documentation is in [docs/ai/](ai/README.md).
 
-# REST API Documentation - Smart Workforce System
+# REST API Documentation - Smart Workflow System
 
 Base URL: `http://localhost:5000/api` (Android Emulator: `http://10.0.2.2:5000/api`)
 

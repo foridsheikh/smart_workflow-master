@@ -137,7 +137,7 @@ function BrowserFrame({ src, alt, className }) {
         <span className="size-2.5 rounded-full bg-amber-400" />
         <span className="size-2.5 rounded-full bg-emerald-400" />
         <span className="ml-3 flex flex-1 items-center gap-1.5 rounded-md bg-white px-3 py-1 text-xs text-slate-400 ring-1 ring-slate-200">
-          <Lock className="size-3" /> smart-workforce.local/app
+          <Lock className="size-3" /> smart-workflow.local/app
         </span>
       </div>
       <img src={src} alt={alt} className="block w-full" loading="lazy" width="1440" height="900" />
@@ -225,7 +225,7 @@ export default function LandingPage() {
               Assign every task to the <span className="text-brand-700">right person</span>.
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">
-              Smart Workforce matches work to people by skill, capacity and deadline, then tracks it through review to
+              Smart Workflow matches work to people by skill, capacity and deadline, then tracks it through review to
               completion. No guesswork, no overloaded teammates.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -462,7 +462,7 @@ export default function LandingPage() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-slate-500 sm:flex-row sm:px-6">
           <Logo subtitle={false} />
           <p className="text-center">
-            Smart Workforce &amp; Task Allocation System · University project · {new Date().getFullYear()}
+            Smart Workflow &amp; Task Allocation System · University project · {new Date().getFullYear()}
             <span className="mt-1 block text-xs text-slate-400">
               Crafted by{' '}
               <a href="https://github.com/forid0000" rel="author" target="_blank" className="hover:text-brand-700">

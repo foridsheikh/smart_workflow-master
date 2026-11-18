@@ -9,7 +9,7 @@ import './index.css'
 
 // Signature for curious developers opening the console.
 console.info(
-  '%cSmart Workforce%c crafted by Md Forid Sheikh · https://github.com/forid0000',
+  '%cSmart Workflow%c crafted by Md Forid Sheikh · https://github.com/forid0000',
   'background:#039855;color:#fff;padding:2px 6px;border-radius:4px;font-weight:700',
   'color:#039855',
 )

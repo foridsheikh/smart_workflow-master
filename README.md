@@ -1,7 +1,7 @@
-<!-- Smart Workforce & Task Allocation System · author: Md Forid Sheikh · https://github.com/forid0000 -->
+<!-- Smart Workflow & Task Allocation System · author: Md Forid Sheikh · https://github.com/forid0000 -->
 <div align="center">
 
-# Smart Workforce & Task Allocation System
+# Smart Workflow & Task Allocation System
 
 **Give every task to the best-suited team member, based on skills, workload, availability and deadline. Then follow the work through review to completion.**
 
@@ -796,7 +796,7 @@ Frontend checks: `npm run lint` (oxlint) and `npm run build`. The frontend has n
 
 **Md Forid Sheikh**: full-stack developer. GitHub: [@forid0000](https://github.com/forid0000)
 
-If this project helped you, a ⭐ on [the repository](https://github.com/forid0000/Smart-Workforce) is appreciated.
+If this project helped you, a ⭐ on [the repository](https://github.com/forid0000/smart_workflow-master) is appreciated.
 
 ## License
 

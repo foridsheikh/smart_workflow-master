@@ -1,6 +1,6 @@
-# Smart Workforce: Frontend
+# Smart Workflow: Frontend
 
-React 19 + Vite app for the Smart Workforce & Task Allocation System.
+React 19 + Vite app for the Smart Workflow & Task Allocation System.
 
 ```bash
 npm install
