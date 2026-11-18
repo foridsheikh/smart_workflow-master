@@ -2,18 +2,18 @@
 export const DEMO_PASSWORD = 'password123'
 
 export const DEMO_ACCOUNTS = [
-  {
-    role: 'Super Admin',
-    name: 'Chief Super Admin',
-    email: 'mdforidsheikh72+superadmin@gmail.com',
-    description: 'Full control, including creating other admins and changing roles.',
-  },
-  {
-    role: 'Admin',
-    name: 'System Administrator',
-    email: 'mdforidsheikh72+admin@gmail.com',
-    description: 'Creates tasks, allocates work, approves registrations, views reports.',
-  },
+  // {
+  //   role: 'Super Admin',
+  //   name: 'Chief Super Admin',
+  //   email: 'mdforidsheikh72+superadmin@gmail.com',
+  //   description: 'Full control, including creating other admins and changing roles.',
+  // },
+  // {
+  //   role: 'Admin',
+  //   name: 'System Administrator',
+  //   email: 'mdforidsheikh72+admin@gmail.com',
+  //   description: 'Creates tasks, allocates work, approves registrations, views reports.',
+  // },
   {
     role: 'Employee',
     name: 'John Doe',
